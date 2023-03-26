@@ -1,9 +1,11 @@
+use std::{collections::HashMap, fmt::Write};
+
+use sdl2::{joystick::Joystick, JoystickSubsystem};
+
 use crate::{
 	config::{self, Axis, Command, Config, HatConfig, JoystickConfig},
 	nav::{Input, Item, Navigation, Page},
 };
-use sdl2::{joystick::Joystick, JoystickSubsystem};
-use std::{collections::HashMap, fmt::Write};
 
 pub fn selected_joystick_id(page: &Page) -> u32 {
 	return usize_from_item(page.items().nth(1)) as u32;

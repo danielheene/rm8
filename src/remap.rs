@@ -1,5 +1,6 @@
-use crate::nav::{Input, Item, Navigation};
 use sdl2::keyboard::Keycode;
+
+use crate::nav::{Input, Item, Navigation};
 
 pub struct Remap {
 	pos: usize,

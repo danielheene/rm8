@@ -1,5 +1,6 @@
-use sdl2::{pixels, render, video};
 use std::mem;
+
+use sdl2::{pixels, render, video};
 
 pub fn init(
 	creator: &render::TextureCreator<video::WindowContext>,

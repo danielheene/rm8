@@ -63,7 +63,10 @@ impl<const N: usize> Slip<N> {
 							return Ok(Some(&buf[..end]));
 						}
 						END => {
-							return Err(io::Error::new(io::ErrorKind::InvalidData, "empty command"))
+							return Err(io::Error::new(
+								io::ErrorKind::InvalidData,
+								"empty command",
+							));
 						}
 						ESC => {
 							self.state = SlipState::Escape;
@@ -79,7 +82,7 @@ impl<const N: usize> Slip<N> {
 							return Err(io::Error::new(
 								io::ErrorKind::InvalidData,
 								format!("invalid escape sequence: {:02x}", byte),
-							))
+							));
 						}
 					},
 				}

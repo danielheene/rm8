@@ -24,6 +24,7 @@ impl TryFrom<u8> for Font {
 		})
 	}
 }
+
 impl fmt::Display for Font {
 	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
 		match self {

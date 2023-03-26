@@ -1,10 +1,3 @@
-use sdl2::{
-	joystick::{HatState, Joystick},
-	keyboard::{Keycode, Mod},
-	render::Canvas,
-	video::Window,
-	JoystickSubsystem,
-};
 use std::{
 	cmp::Ordering,
 	collections::HashMap,
@@ -14,6 +7,14 @@ use std::{
 	},
 	thread,
 	time::{self, Duration},
+};
+
+use sdl2::{
+	joystick::{HatState, Joystick},
+	keyboard::{Keycode, Mod},
+	render::Canvas,
+	video::Window,
+	JoystickSubsystem,
 };
 
 use crate::{

@@ -1,5 +1,6 @@
-use serde::{ser::SerializeMap, Serializer};
 use std::collections::HashMap;
+
+use serde::{ser::SerializeMap, Serializer};
 
 use crate::config::Command;
 

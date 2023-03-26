@@ -1,16 +1,21 @@
 #[macro_use]
 extern crate serde_derive;
 
+use std::sync::{
+	atomic::{self, AtomicBool},
+	Arc,
+};
+
 use sdl2::{
 	event::Event,
 	keyboard::{Keycode, Mod},
 	pixels::PixelFormatEnum,
 	video,
 };
-use std::sync::{
-	atomic::{self, AtomicBool},
-	Arc,
-};
+
+use app::App;
+use config::Rgb;
+use m8::M8;
 
 mod app;
 mod audio;
@@ -32,10 +37,6 @@ mod nav_page;
 mod remap;
 mod slip;
 mod value;
-
-use app::App;
-use config::Rgb;
-use m8::M8;
 
 fn main() -> Result<(), String> {
 	let running = Arc::new(AtomicBool::new(true));

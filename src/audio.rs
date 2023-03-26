@@ -1,6 +1,6 @@
-use sdl2::audio::{AudioCallback, AudioDevice, AudioSpecDesired};
-
 use std::sync::mpsc;
+
+use sdl2::audio::{AudioCallback, AudioDevice, AudioSpecDesired};
 
 struct Capture {
 	done_sender: mpsc::Sender<Vec<i16>>,

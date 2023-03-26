@@ -1,96 +1,92 @@
 # Instruction + template repo: https://github.com/FedericoPonzi/rust-ci
-# Search and replace <YOUR_BINARY_NAME> with your binary name.
 name: CI
 
 on:
-  fork:
-  workflow_dispatch:
   pull_request:
   push:
     branches:
-      - master
       - pi-zero-dmg
     tags:
-      - "v*.*.*"
+      - 'v*.*.*'
 
 jobs:
-  # style:
-  #   name: Check Style
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v1
+  style:
+    name: Check Style
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
 
-  #     - name: Install rust
-  #       uses: actions-rs/toolchain@v1
-  #       with:
-  #         toolchain: stable
-  #         components: rustfmt
-  #         profile: minimal
-  #         override: true
+      - name: Install rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          components: rustfmt
+          profile: minimal
+          override: true
 
-  #     - name: cargo fmt -- --check
-  #       uses: actions-rs/cargo@v1
-  #       with:
-  #         command: fmt
-  #         args: --all -- --check
+      - name: cargo fmt -- --check
+        uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --all -- --check
 
-  # test:
-  #   name: Test
-  #   # needs: [style]
-  #   runs-on: ubuntu-latest
 
-  #   strategy:
-  #     matrix:
-  #       build: [stable, beta, nightly]
-  #       include:
-  #         - build: beta
-  #           rust: beta
-  #         - build: nightly
-  #           rust: nightly
-  #           benches: true
+  test:
+    name: Test
+    needs: [ style ]
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v1
+    strategy:
+      matrix:
+        build: [ stable, beta, nightly ]
+        include:
+          - build: beta
+            rust: beta
+          - build: nightly
+            rust: nightly
+            benches: true
 
-  #     - name: Install rust
-  #       uses: actions-rs/toolchain@v1
-  #       with:
-  #         toolchain: ${{ matrix.rust || 'stable' }}
-  #         profile: minimal
-  #         override: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
 
-  #     - name: Build debug
-  #       uses: actions-rs/cargo@v1
-  #       with:
-  #         command: build
-  #         args: ${{ matrix.features }}
+      - name: Install rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.rust || 'stable' }}
+          profile: minimal
+          override: true
 
-  #     - name: Test
-  #       uses: actions-rs/cargo@v1
-  #       with:
-  #         command: test
-  #         args: ${{ matrix.features }}
+      - name: Build debug
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: ${{ matrix.features }}
 
-  #     - name: Test all benches
-  #       if: matrix.benches
-  #       uses: actions-rs/cargo@v1
-  #       with:
-  #         command: test
-  #         args: --benches ${{ matrix.features }}
+      - name: Test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: ${{ matrix.features }}
 
+      - name: Test all benches
+        if: matrix.benches
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --benches ${{ matrix.features }}
   deploy:
     name: deploy
-    # needs: [test]
-    # if: startsWith(github.ref, 'refs/tags/')
+    needs: [ test ]
+    if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     strategy:
       matrix:
         target:
-          - arm-unknown-linux-gnueabi
-          # - armv7-unknown-linux-gnueabihf
-          # - aarch64-unknown-linux-gnu
+          - arm-unknown-linux-gnueabihf
+#          - armv7-unknown-linux-gnueabihf
+#          - aarch64-unknown-linux-gnu
           # - i686-unknown-linux-gnu
           # - i686-unknown-linux-musl
           # - mips-unknown-linux-gnu
@@ -100,18 +96,11 @@ jobs:
           # - powerpc-unknown-linux-gnu
           # - powerpc64-unknown-linux-gnu
           # - powerpc64le-unknown-linux-gnu
-          # - x86_64-unknown-linux-gnu
-          # - x86_64-unknown-linux-musl
+#          - x86_64-unknown-linux-gnu
+#          - x86_64-unknown-linux-musl
     steps:
-      # - name: update package lists
-      # run: sudo apt-get update
-
-      - name: install packages
-        run: sudo apt-get update && apt-cache search sdl2 udev serial
-
       - name: Checkout
         uses: actions/checkout@v1
-
       - name: Install rust
         uses: actions-rs/toolchain@v1
         with:
@@ -130,14 +119,14 @@ jobs:
       - name: Package
         shell: bash
         run: |
-          cd target/${{ matrix.target }}/release          
-          tar czvf ../../../<YOUR_BINARY_NAME>-${{ matrix.target }}.tar.gz <YOUR_BINARY_NAME>
+          #strip target/${{ matrix.target }}/release/rm8
+          cd target/${{ matrix.target }}/release
+          tar czvf ../../../rm8-${{ matrix.target }}.tar.gz rm8
           cd -
-
       - name: Publish
         uses: softprops/action-gh-release@v1
         # TODO: if any of the build step fails, the release should be deleted.
         with:
-          files: "rm8*"
+          files: 'rm8*'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

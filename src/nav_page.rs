@@ -1,5 +1,6 @@
-use sdl2::keyboard::Keycode;
 use std::cmp::Ordering;
+
+use sdl2::keyboard::Keycode;
 
 use crate::{
 	config::{self, Command},

@@ -86,7 +86,7 @@ impl fmt::Display for Command {
 			Command::Escape => write!(f, "ESCAPE"),
 			Command::Fullscreen => write!(f, "FULLSCREEN"),
 			Command::Reset => write!(f, "RESET"),
-			Command::ResetFull=> write!(f, "RESETFULL"),
+			Command::ResetFull => write!(f, "RESETFULL"),
 		}
 	}
 }

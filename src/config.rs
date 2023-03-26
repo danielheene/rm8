@@ -1,5 +1,6 @@
-use sdl2::keyboard::Keycode as SdlKeycode;
 use std::collections::HashMap;
+
+use sdl2::keyboard::Keycode as SdlKeycode;
 
 pub use crate::config_command::Command;
 pub use crate::config_font::Font;

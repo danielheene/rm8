@@ -2,7 +2,6 @@ use crate::{
 	draw::{Context, LINE_HEIGHT},
 	font, m8,
 };
-
 pub use crate::{
 	nav_item::{Action, Direction, Edit, Input, Item},
 	nav_page::Page,

@@ -1,5 +1,6 @@
-use serialport::{available_ports, ErrorKind, SerialPort, SerialPortType};
 use std::{io, time::Duration};
+
+use serialport::{available_ports, ErrorKind, SerialPort, SerialPortType};
 
 use crate::{
 	audio::{self, Audio},
