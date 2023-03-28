@@ -101,7 +101,7 @@ jobs:
     steps:
       - name: install host packages
         run: |
-          dpkg --add-architecture armhf
+          sudo dpkg --add-architecture armhf
           sudo apt-get update
           sudo apt-get install -y libudev-dev:armhf
 
